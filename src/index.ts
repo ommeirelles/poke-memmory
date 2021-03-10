@@ -21,13 +21,13 @@ function fillPokemonCardArray () {
 
 function insertRandomPieces(numberOfCards: number) {
   for(let countLoop = 0; countLoop < numberOfCards; countLoop++) {
-    const randomNumber = Math.floor(Math.random() * (18 - countLoop));
-    const position = positionsTaken.splice(randomNumber)[0];
+    const randomNumber = Math.floor(Math.random() * (numberOfCards - countLoop));
+    const position = positionsTaken.splice(randomNumber, 1)[0];
     pokemonCardArray[position] = tempPokemonCardArray.pop() as Piece;
   }
 }
 
-function main() {
+function startUp() {
   const numberOfCards = Pieces.length * 2;
   fillPokemonCardArray();
   fillPositions(numberOfCards);
@@ -35,4 +35,4 @@ function main() {
   console.log(pokemonCardArray);
 }
 
-main();
+startUp();
