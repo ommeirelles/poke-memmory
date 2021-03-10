@@ -7,6 +7,10 @@ export interface Piece {
 
 export const Pieces: Array<Piece> = [
     {
+        name: "Togepi",
+        set: 0
+    },
+    {
         name: "Pikachu",
         set: 1
     },
@@ -23,7 +27,19 @@ export const Pieces: Array<Piece> = [
         set: 4
     },
     {
-        name: "Pidgey",
+        name: "Chikorita",
         set: 5
+    },
+    {
+        name: "Jigglypuff",
+        set: 6
+    },
+    {
+        name: "Totodille",
+        set: 7
+    },
+    {
+        name: "Wobbuffet",
+        set: 8
     },
 ]
