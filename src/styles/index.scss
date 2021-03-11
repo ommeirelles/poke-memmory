@@ -61,16 +61,28 @@ header {
   .card-grid {
     background-color: #f2f2f2;
     display: grid;
+    justify-content: center;
     width: 90%;
     grid-template-columns: repeat(6, minmax(10vw, 100px));
-    grid-template-rows: repeat(3, minmax(15vw, 150px));
+    grid-template-rows: repeat(3, minmax(13vw, 130px));
     grid-gap: 10px;
+    margin: 15px;
     .card {
-      img {
+      background-color:#3f69ff;
+      border-radius: 5px;
+      padding: 5px;
+      div{
+        background-color: white;
         width: 100%;
         height: 100%;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        img {
+          width: 100%;
+          height: auto;
+        }
       }
-      background-color: black;
     }
   }
 }

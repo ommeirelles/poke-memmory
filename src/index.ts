@@ -1,15 +1,11 @@
-import './styles/index.scss'
+import './styles/index.scss';
+import{gameLoop} from './game/script';
+
 import {Piece, Pieces} from './entity/index';
 
 const pokemonCardArray: Array<Piece> = [];
-const positionsTaken: Array<number> = [];
 const tempPokemonCardArray: Array<Piece> = [];
-
-function fillPositions(numberOfCards: number) {
-  for(let i = 0; i < numberOfCards; i++) {
-    positionsTaken.push(i);
-  }
-}
+const cardGrid = document.querySelector('.card-grid');
 
 function fillPokemonCardArray () {
   Pieces.forEach(pokemon => {
@@ -21,18 +17,37 @@ function fillPokemonCardArray () {
 
 function insertRandomPieces(numberOfCards: number) {
   for(let countLoop = 0; countLoop < numberOfCards; countLoop++) {
-    const randomNumber = Math.floor(Math.random() * (numberOfCards - countLoop));
-    const position = positionsTaken.splice(randomNumber, 1)[0];
-    pokemonCardArray[position] = tempPokemonCardArray.pop() as Piece;
+    const randomNumber = Math.floor(Math.random() * (tempPokemonCardArray.length - countLoop));
+    const randomPokemonCard = tempPokemonCardArray.splice(randomNumber, 1)[0];
+    pokemonCardArray.push(randomPokemonCard);
   }
+}
+
+function createMarkupForPokemonCard(piece:Piece) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  const innerDiv = document.createElement('div');
+  const img = document.createElement('img');
+  img.src = `/assets/images/pokemons/${piece.name}.png`;
+  img.alt = `picture of ${piece.name}`;
+  innerDiv.appendChild(img);
+  div.appendChild(innerDiv);
+  cardGrid!.appendChild(div);
+}
+
+function createMarkupForPokemonCardGrid() {
+  pokemonCardArray.forEach(pokemonCard => {
+  createMarkupForPokemonCard(pokemonCard);
+    
+  });
 }
 
 function startUp() {
   const numberOfCards = Pieces.length * 2;
   fillPokemonCardArray();
-  fillPositions(numberOfCards);
   insertRandomPieces(numberOfCards);
-  console.log(pokemonCardArray);
+  createMarkupForPokemonCardGrid();
+  gameLoop(pokemonCardArray, document.querySelectorAll('.card'))
 }
 
 startUp();
