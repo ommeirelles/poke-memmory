@@ -28,7 +28,8 @@ module.exports = {
                 },
               },
             },
-            "css-loader"
+            "css-loader",
+            "sass-loader"
           ],
       }
     ],
@@ -43,7 +44,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [ 'assets/**/!*.png', ],
+    }),
   ],
   mode: 'development'
 };
