@@ -8,7 +8,7 @@ export interface Piece {
 export const Pieces: Array<Piece> = [
     {
         name: "Togepi",
-        set: 0
+        set: 9
     },
     {
         name: "Pikachu",
