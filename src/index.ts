@@ -1,7 +1,7 @@
 import './styles/index.scss';
-import{gameLoop} from './game/script';
+import{ startGame, cardHasBeenClicked } from './game/script';
 
-import {Piece, Pieces} from './entity/index';
+import { Piece, Pieces } from './entity/index';
 
 const pokemonCardArray: Array<Piece> = [];
 const tempPokemonCardArray: Array<Piece> = [];
@@ -23,22 +23,43 @@ function insertRandomPieces(numberOfCards: number) {
   }
 }
 
-function createMarkupForPokemonCard(piece:Piece) {
+function rotatePokemonCard(element: Element) {
+  element.addEventListener("click",() => {
+    cardHasBeenClicked(Number(element.id));
+  })
+}
+
+function createMarkupForPokemonCard(piece:Piece, index:number) {
   const div = document.createElement('div');
   div.className = 'card';
-  const innerDiv = document.createElement('div');
+  rotatePokemonCard(div);
+  div.id = String(index);
+
+  const backCardContainer = document.createElement('div');
+  backCardContainer.classList.add("back-card-container");
+  const cardBackImg = document.createElement('img');
+  cardBackImg.src = `/assets/images/cardback.png`;
+  cardBackImg.alt = `picture of card back`;
+  backCardContainer.appendChild(cardBackImg);
+  div.appendChild(backCardContainer);
+
+  const frontCardContainer = document.createElement('div');
+  const frontCardDiv = document.createElement('div');
+  frontCardContainer.classList.add("front-card-container");
+  frontCardDiv.classList.add("front-card");
   const img = document.createElement('img');
   img.src = `/assets/images/pokemons/${piece.name}.png`;
   img.alt = `picture of ${piece.name}`;
-  innerDiv.appendChild(img);
-  div.appendChild(innerDiv);
+  frontCardDiv.appendChild(img);
+  frontCardContainer.appendChild(frontCardDiv);
+  div.appendChild(frontCardContainer);
+
   cardGrid!.appendChild(div);
 }
 
 function createMarkupForPokemonCardGrid() {
-  pokemonCardArray.forEach(pokemonCard => {
-  createMarkupForPokemonCard(pokemonCard);
-    
+  pokemonCardArray.forEach((pokemonCard, index) => {
+  createMarkupForPokemonCard(pokemonCard, index);
   });
 }
 
@@ -47,7 +68,7 @@ function startUp() {
   fillPokemonCardArray();
   insertRandomPieces(numberOfCards);
   createMarkupForPokemonCardGrid();
-  gameLoop(pokemonCardArray, document.querySelectorAll('.card'))
+  startGame(pokemonCardArray, document.querySelectorAll('.card'))
 }
 
 startUp();
