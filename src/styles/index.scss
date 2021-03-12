@@ -1,3 +1,13 @@
+@use "sass:map";
+
+$front-card-background-color: (
+  "matched": #ffd12d,
+  "default": #3f69ff,
+  "missed": #e04949,
+);
+
+$front-card-background-color2: blue;
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +15,7 @@
 }
 
 body,
-html{
+html {
   margin: 0;
   height: 100vh;
   width: 100vw;
@@ -52,7 +62,7 @@ header {
     button {
       border: 0;
       background-color: #3f69ff;
-      color:#f2f2f2;
+      color: #f2f2f2;
       border-radius: 5px;
       box-shadow: 0 0 60px rgba($color: #000000, $alpha: 0.2);
     }
@@ -68,32 +78,73 @@ header {
     grid-gap: 10px;
     margin: 15px;
     .card {
-      background-color:#3f69ff;
-      border-radius: 5px;
-      padding: 5px;
-      div{
-        background-color: white;
+      position: relative;
+      perspective: 200px;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+
+      .front-card-container,
+      .back-card-container {
         width: 100%;
         height: 100%;
         border-radius: 5px;
-        display: flex;
-        align-items: center;
+        position: absolute;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
         img {
           width: 100%;
           height: auto;
         }
       }
+      .front-card-container {
+        background-color: blue;
+        border-radius: 5px;
+        padding: 5px;
+        transform: rotateY(180deg);
+        .front-card {
+          background-color: white;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        }
+        .matched {
+          background-color: yellow;
+        }
+
+        .missed {
+          background-color: red;
+        }
+      }
+
+      .back-card-container {
+        top: 0px;
+        left: 0px;
+        img {
+          height: 100%;
+        }
+      }
+    }
+    .selected {
+      transform: rotateY(180deg);
+    }
+
+    .matched {
+      pointer-events: none;
+    }
+
+    .missed {
+      pointer-events: none;
     }
   }
 }
-
 
 footer {
   display: flex;
   justify-content: space-between;
   background-color: #3f69ff;
   width: 100%;
-  color:#ffd12d;
+  color: #ffd12d;
   display: flex;
   padding: 5px;
   align-items: center;
@@ -104,12 +155,12 @@ footer {
       margin-right: 3px;
     }
   }
-  
+
   .github-link {
     @include center-element();
     grid-auto-flow: column;
     text-decoration: none;
-    color: black ;
+    color: black;
     span {
       margin-left: 3px;
     }
