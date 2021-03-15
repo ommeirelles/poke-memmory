@@ -1,12 +1,4 @@
-@use "sass:map";
-
-$front-card-background-color: (
-  "matched": #ffd12d,
-  "default": #3f69ff,
-  "missed": #e04949,
-);
-
-$front-card-background-color2: blue;
+@use './abstracts' as *; 
 
 * {
   margin: 0;
@@ -19,9 +11,6 @@ html {
   margin: 0;
   height: 100vh;
   width: 100vw;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -29,6 +18,7 @@ html {
 body {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  font-family: "Poppins", sans-serif;
 }
 
 @mixin center-element {
@@ -38,45 +28,61 @@ body {
 
 header {
   @include center-element();
-  background-color: #ffd12d;
+  background-color: $yellow;
   font-family: "Press Start 2P", cursive;
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
+  color: $black;
 }
 
 .main {
-  background-color: #fbfbfb;
-  font-family: "Popins", sans-serif;
+  background-color: $gray;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  
   .status {
     margin: 15px 0;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
+
     div {
       @include center-element();
+
+      span {
+        color: $blue;
+        font-size: 25px;
+        font-weight: 600;
+      }
     }
+
     button {
       border: 0;
-      background-color: #3f69ff;
-      color: #f2f2f2;
+      background-color: $blue;
+      color: $gray;
       border-radius: 5px;
-      box-shadow: 0 0 60px rgba($color: #000000, $alpha: 0.2);
+      box-shadow: 0 0 60px rgba($color: $black, $alpha: 0.2);
+
+      .material-icons {
+
+        &.hidden {
+         display: none; 
+        }
+      }
     }
   }
 
   .card-grid {
-    background-color: #f2f2f2;
     display: grid;
     justify-content: center;
-    width: 90%;
     grid-template-columns: repeat(6, minmax(10vw, 100px));
     grid-template-rows: repeat(3, minmax(13vw, 130px));
     grid-gap: 10px;
-    margin: 15px;
+    margin-top: 100px;
+     
     .card {
       position: relative;
       perspective: 200px;
@@ -91,50 +97,57 @@ header {
         position: absolute;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
+
         img {
           width: 100%;
           height: auto;
         }
       }
+
+      &.missed, &.matched {
+        pointer-events: none;
+      }
+
+      &.matched {
+        .front-card-container {
+          background-color: $green;
+        }
+      }
+
+      &.missed {
+        .front-card-container {
+          background-color: $red;
+        }
+      }
+
       .front-card-container {
-        background-color: blue;
+        background-color: $blue;
         border-radius: 5px;
         padding: 5px;
         transform: rotateY(180deg);
+        transition: background-color 1500ms;
+
         .front-card {
-          background-color: white;
+          background-color: $white;
           display: flex;
           align-items: center;
           width: 100%;
           height: 100%;
-        }
-        .matched {
-          background-color: yellow;
-        }
-
-        .missed {
-          background-color: red;
         }
       }
 
       .back-card-container {
         top: 0px;
         left: 0px;
+
         img {
           height: 100%;
         }
       }
+
     }
     .selected {
       transform: rotateY(180deg);
-    }
-
-    .matched {
-      pointer-events: none;
-    }
-
-    .missed {
-      pointer-events: none;
     }
   }
 }
@@ -142,15 +155,17 @@ header {
 footer {
   display: flex;
   justify-content: space-between;
-  background-color: #3f69ff;
+  background-color: $blue;
   width: 100%;
-  color: #ffd12d;
+  color: $yellow;
   display: flex;
   padding: 5px;
   align-items: center;
+
   .copyright-item {
     @include center-element();
     grid-auto-flow: column;
+
     span {
       margin-right: 3px;
     }
@@ -161,9 +176,11 @@ footer {
     grid-auto-flow: column;
     text-decoration: none;
     color: black;
+
     span {
       margin-left: 3px;
     }
+
     img {
       width: 30px;
       height: 30px;
