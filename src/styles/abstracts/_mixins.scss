@@ -1,4 +1,17 @@
+@use './_colors';
+
 @mixin center-element {
   display: grid;
   place-items: center;
 }
+
+@mixin button-base-style {
+  border: 0;
+  background-color: colors.$blue;
+  color: colors.$gray;
+  border-radius: 5px;
+  box-shadow: 0 0 60px rgba($color: colors.$black, $alpha: 0.2);
+  padding: 20px;
+  cursor:pointer;
+}
+

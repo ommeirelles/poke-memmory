@@ -1,14 +1,39 @@
 import './styles/index.scss';
-import{ startGame, cardHasBeenClicked } from './game/script';
+import{ startGame, cardHasBeenClicked, resetGame } from './game/script';
 
 import { Piece, Pieces } from './entity/index';
 
-const pokemonCardArray: Array<Piece> = [];
-const tempPokemonCardArray: Array<Piece> = [];
+let pokemonCardArray: Array<Piece> = [];
+let tempPokemonCardArray: Array<Piece> = [];
 const cardGrid = document.querySelector('.card-grid');
+const button = document.querySelector('.play-button');
+
+function onStartButtonClick() {
+
+  if(button!.children[1].classList.contains("hidden")){
+    if(button!.classList.contains("first")) {
+      button!.classList.toggle("first");
+    } else {
+      buildUp();
+    }
+    startGame(pokemonCardArray, document.querySelectorAll('.card'));
+  } else {
+    resetGame();
+    buildUp();
+  }
+  button!.children[1].classList.toggle("hidden");
+  button!.children[0].classList.toggle("hidden");
+}
+
+function setStartButtonListener() {
+  button!.addEventListener("click",() => {
+    onStartButtonClick();
+  });
+}
 
 function fillPokemonCardArray () {
-  Pieces.forEach(pokemon => {
+  tempPokemonCardArray = [];
+  Pieces.forEach(pokemon => { 
     for(let i = 0; i < 2; i++) {
       tempPokemonCardArray.push(pokemon);
     }
@@ -16,6 +41,7 @@ function fillPokemonCardArray () {
 }
 
 function insertRandomPieces(numberOfCards: number) {
+  pokemonCardArray = [];
   for(let countLoop = 0; countLoop < numberOfCards; countLoop++) {
     const randomNumber = Math.floor(Math.random() * (tempPokemonCardArray.length - countLoop));
     const randomPokemonCard = tempPokemonCardArray.splice(randomNumber, 1)[0];
@@ -58,17 +84,22 @@ function createMarkupForPokemonCard(piece:Piece, index:number) {
 }
 
 function createMarkupForPokemonCardGrid() {
+  cardGrid!.innerHTML = "";
   pokemonCardArray.forEach((pokemonCard, index) => {
   createMarkupForPokemonCard(pokemonCard, index);
   });
 }
 
-function startUp() {
+export function buildUp() {
   const numberOfCards = Pieces.length * 2;
   fillPokemonCardArray();
   insertRandomPieces(numberOfCards);
   createMarkupForPokemonCardGrid();
-  startGame(pokemonCardArray, document.querySelectorAll('.card'))
+}
+
+function startUp() {
+  buildUp();
+  setStartButtonListener();
 }
 
 startUp();
